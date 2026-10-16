@@ -1,13 +1,12 @@
 CC ?= cc
-CFLAGS ?= -O2
-CFLAGS += -std=c11 -Wall -Wextra -Wpedantic
+CFLAGS ?= -std=c11 -Wall -Wextra -Werror -Wpedantic
 
 .PHONY: all run clean
 
 all: pong
 
-pong: pong.c
-	$(CC) $(CPPFLAGS) $(CFLAGS) pong.c $(LDFLAGS) $(LDLIBS) -o $@
+pong: src/pong.c
+	$(CC) $(CPPFLAGS) $(CFLAGS) src/pong.c $(LDFLAGS) $(LDLIBS) -o $@
 
 run: pong
 	./pong
