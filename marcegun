@@ -1,0 +1,45 @@
+// Если на следующем шаге мяч упрётся в верхнюю (y = 0)
+    // или нижнюю (y = 24) границу, заранее меняем направление по y.
+    if (ball_y + ball_direction_y == 0 || ball_y + ball_direction_y == 24) {
+      ball_direction_y = -ball_direction_y;
+    }
+
+    // Считаем клетку, в которую мяч попадёт на следующем шаге.
+    int next_ball_x = ball_x + ball_direction_x;
+    int next_ball_y = ball_y + ball_direction_y;
+
+    // Проверяем, не врежется ли мяч в левую ракетку.
+    if (ball_direction_x == -1 && next_ball_x == 3 &&
+        next_ball_y >= left_paddle_y - 1 && next_ball_y <= left_paddle_y + 1) {
+      ball_direction_x = -ball_direction_x;
+    }
+    // Иначе проверяем правую ракетку.
+    else if (ball_direction_x == 1 && next_ball_x == 76 &&
+             next_ball_y >= right_paddle_y - 1 &&
+             next_ball_y <= right_paddle_y + 1) {
+      ball_direction_x = -ball_direction_x;
+    }
+
+    // Двигаем мяч. Если столкнулся с ракеткой,
+    // направление по x изменяется, и мяч уйдёт обратно.
+    ball_x += ball_direction_x;
+    ball_y += ball_direction_y;
+
+    // Столбцы 2 и 77 находятся сразу за ракетками, если он туда попал, это гол.
+    if (ball_x == 2 || ball_x == 77) {
+      if (ball_x == 2) {
+        // Мяч пролетел слева - +очко правому игроку.
+        right_score++;
+      } else {
+        // Мяч пролетел справа - +очко левому игроку.
+        left_score++;
+      }
+
+      // После гола возвращаем мяч и ракетки в центр.
+      ball_x = 39;
+      ball_y = 12;
+      ball_direction_y = 1;
+
+      left_paddle_y = 12;
+      right_paddle_y = 12;
+    }
