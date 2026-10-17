@@ -1,0 +1,64 @@
+// Возвращает новую координату середины одной ракетки.
+// command - символ, который нажал игрок.
+// paddle_y - текущая координата середины ракетки по вертикали.
+int move_paddle(int command, int paddle_y) {
+  switch (command) {
+  case 'a':
+  case 'k':
+    // Движение вверх.
+    // Середина не может подняться выше y = 2.
+    if (paddle_y > 2) {
+      paddle_y--;
+    }
+    break;
+
+  case 'z':
+  case 'm':
+    // Движение вниз.
+    // Середина не может опуститься ниже y = 22.
+    if (paddle_y < 22) {
+      paddle_y++;
+    }
+    break;
+  }
+
+  return paddle_y;
+}
+
+while (left_score < 21 && right_score < 21) {
+    int command = getchar();
+
+    switch (command) {
+    case 'a':
+    case 'z':
+      // Управление левой ракеткой: 'a' - вверх, 'z' - вниз.
+      left_paddle_y = move_paddle(command, left_paddle_y);
+      break;
+
+    case 'k':
+    case 'm':
+      // Управление правой ракеткой: 'k' - вверх, 'm' - вниз.
+      right_paddle_y = move_paddle(command, right_paddle_y);
+      break;
+
+    case ' ':
+      // Пробел: ракетки стоят на месте, но мяч всё равно делает ход.
+      break;
+
+    default:
+      // Enter и любые другие символы ни к чему не приводят.
+      continue;
+    }
+    printf("Score: %d : %d\n", left_score, right_score);
+    draw_field(left_paddle_y, right_paddle_y, ball_x, ball_y);
+  }
+
+  // Игра закончилась, проверяем, кто набрал 21 очко и поздравляем его.
+  if (left_score == 21) {
+    printf("Congratulations, player 1!\n");
+  } else if (right_score == 21) {
+    printf("Congratulations, player 2!\n");
+  }
+
+  return 0;
+}
