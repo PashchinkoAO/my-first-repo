@@ -1,0 +1,57 @@
+#include <stdio.h>
+
+// Координаты ракеток задают их середину.
+// Каждая ракетка занимает три строки: y - 1, y, y + 1.
+void draw_field(int left_paddle_y, int right_paddle_y, int ball_x, int ball_y) {
+  // y - номер строки сверху вниз, от 0 до 24.
+  // x - номер столбца слева направо, от 0 до 79.
+  for (int y = 0; y < 25; y++) {
+    for (int x = 0; x < 80; x++) {
+      if (y == 0 || y == 24) {
+        // Верхняя и нижняя границы поля.
+        putchar('-');
+      } else if (x == 0 || x == 79) {
+        // Левая и правая границы поля.
+        putchar('|');
+      } else if (x == ball_x && y == ball_y) {
+        // Мяч рисуем раньше центральной линии,
+        // чтобы на пересечении было видно 'O', а не ':'.
+        putchar('O');
+      } else if (x == 39) {
+        // Центральная линия поля.
+        putchar(':');
+      } else if (x == 3 && y >= left_paddle_y - 1 && y <= left_paddle_y + 1) {
+        // Левая ракетка: столбец 3, три строки вокруг её середины.
+        putchar('#');
+      } else if (x == 76 && y >= right_paddle_y - 1 &&
+                 y <= right_paddle_y + 1) {
+        // Правая ракетка: столбец 76, три строки вокруг её середины.
+        putchar('#');
+      } else {
+        // Всё остальное - пустое место.
+        putchar(' ');
+      }
+    }
+
+    // После 80 символов текущей строки переходим на следующую.
+    putchar('\n');
+  }
+}
+
+int main(void) {
+  // Начальные положения: обе ракетки и мяч - в центре поля.
+  int left_paddle_y = 12;
+  int right_paddle_y = 12;
+  int ball_x = 39;
+  int ball_y = 12;
+
+  // Направление мяча по x:  1 - вправо, -1 - влево.
+  // Направление мяча по y:  1 - вниз,   -1 - вверх.
+  int ball_direction_x = 1;
+  int ball_direction_y = 1;
+
+  int left_score = 0;
+  int right_score = 0;
+
+  printf("Score: %d : %d\n", left_score, right_score);
+  draw_field(left_paddle_y, right_paddle_y, ball_x, ball_y);
