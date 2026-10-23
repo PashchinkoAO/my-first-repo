@@ -1,2 +1,6 @@
 /pong
 /pong.dSYM/
+/game_of_life
+/game_of_life.dSYM/
+/test_game_of_life
+/tests/__pycache__/
